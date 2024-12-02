@@ -28,7 +28,7 @@ export const useAllLendingVaults = (): {
           },
         }
       );
-      console.log("response lending", response.data);
+
       return response.data.data;
     } catch (error) {
       console.error("Error fetching lending vaults with infos", error);

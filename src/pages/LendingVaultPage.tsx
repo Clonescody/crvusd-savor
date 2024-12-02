@@ -31,7 +31,6 @@ export const LendingVaultPage = () => {
     return;
   }
 
-  console.log("vault", vault);
   const { events, redeemValue } = vault;
 
   let totalDeposited = 0;

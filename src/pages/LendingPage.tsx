@@ -20,7 +20,7 @@ export const LendingPage = () => {
   ) {
     setUserAddress(userAddressParam);
   }
-  console.log(vaults);
+
   let totalRedeemValue = 0;
   let totalDeposited = 0;
 

@@ -25,7 +25,7 @@ export const useSavingsVaultUserInfos = (): {
           },
         }
       );
-      console.log("response", response.data);
+
       return response.data;
     } catch (error) {
       console.error("Error fetching savings vault user infos", error);
