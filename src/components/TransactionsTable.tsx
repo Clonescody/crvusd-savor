@@ -1,6 +1,6 @@
 import { format as formatDate } from "date-fns";
 import { ExternalLink } from "lucide-react";
-import { getExplorerLinkForChain } from "@/helpers/utils";
+import { getExplorerLinkForChain } from "@/utils/explorer";
 import { format } from "@greypixel_/nicenumbers";
 import { Event, EventType } from "@/types/apiInterface";
 

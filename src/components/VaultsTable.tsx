@@ -1,6 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
-import { chainIcons, tokenIcons } from "@/helpers/icons";
+import { chainIcons, tokenIcons } from "@/utils/icons";
 import { useAddressStore } from "@/store/useAddressStore";
 import { format } from "@greypixel_/nicenumbers";
 import { EventType, VaultWithEvents } from "@/types/apiInterface";
