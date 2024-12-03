@@ -3,6 +3,7 @@ import { Moon, Sun } from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAddressStore } from "@/store/useAddressStore";
 import { useThemeStore } from "@/store/useThemeStore";
+import { chainIcons } from "@/utils/icons";
 
 export const Header = () => {
   const { userAddress, clearUserAddress } = useAddressStore((state) => state);
@@ -32,6 +33,7 @@ export const Header = () => {
     <header className="bg-blue-600 dark:bg-blue-800 text-white p-4 flex justify-between items-center">
       <div className="flex items-center space-x-4">
         <h1 className="text-2xl font-bold">crvUSD Savor</h1>
+        <img src={chainIcons["arbitrum"]} alt="Arbitrum" className="w-6 h-6" />
         <nav className="flex space-x-4">
           <NavLink
             to={`${userAddress}/savings`}
