@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 interface AddressState {
-  userAddress: string;
+  userAddress: string | null;
   setUserAddress: (address: string) => void;
   clearUserAddress: () => void;
 }
@@ -10,9 +10,9 @@ interface AddressState {
 export const useAddressStore = create(
   persist<AddressState>(
     (set) => ({
-      userAddress: "",
+      userAddress: null,
       setUserAddress: (address) => set({ userAddress: address }),
-      clearUserAddress: () => set({ userAddress: "" }),
+      clearUserAddress: () => set({ userAddress: null }),
     }),
     {
       name: "user-address-storage",

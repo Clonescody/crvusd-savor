@@ -19,9 +19,10 @@ export const LendingVaultPage = () => {
   const vault = useSingleLendingVault(vaultAddress);
 
   if (
-    userAddressParam &&
-    isAddress(userAddressParam) &&
-    userAddress.toLowerCase() !== userAddressParam.toLowerCase()
+    (userAddressParam && isAddress(userAddressParam) && !userAddress) ||
+    (userAddressParam &&
+      userAddress &&
+      userAddress.toLowerCase() !== userAddressParam.toLowerCase())
   ) {
     setUserAddress(userAddressParam);
   }

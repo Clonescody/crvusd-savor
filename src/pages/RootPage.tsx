@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isAddress } from "viem";
 import { useAddressStore } from "@/store/useAddressStore";
@@ -6,8 +6,14 @@ import { useAddressStore } from "@/store/useAddressStore";
 export const RootPage = () => {
   const [inputAddress, setInputAddress] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const { setUserAddress } = useAddressStore((state) => state);
+  const { userAddress, setUserAddress } = useAddressStore((state) => state);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userAddress) {
+      navigate(`/${userAddress}/savings`);
+    }
+  }, [userAddress, navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

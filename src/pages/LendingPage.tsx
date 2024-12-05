@@ -16,9 +16,10 @@ export const LendingPage = () => {
   const { data: vaults, isLoading: isLoadingVaults } = useAllLendingVaults();
 
   if (
-    userAddressParam &&
-    isAddress(userAddressParam) &&
-    userAddress.toLowerCase() !== userAddressParam.toLowerCase()
+    (userAddressParam && isAddress(userAddressParam) && !userAddress) ||
+    (userAddressParam &&
+      userAddress &&
+      userAddress.toLowerCase() !== userAddressParam.toLowerCase())
   ) {
     setUserAddress(userAddressParam);
   }

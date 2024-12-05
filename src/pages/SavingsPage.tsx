@@ -23,9 +23,10 @@ export const SavingsPage = () => {
 
   const isLoading = isLoadingUserInfos || isLoadingSavingsInfos;
   if (
-    userAddressParam &&
-    isAddress(userAddressParam) &&
-    userAddress.toLowerCase() !== userAddressParam.toLowerCase()
+    (userAddressParam && isAddress(userAddressParam) && !userAddress) ||
+    (userAddressParam &&
+      userAddress &&
+      userAddress.toLowerCase() !== userAddressParam.toLowerCase())
   ) {
     setUserAddress(userAddressParam);
   }
