@@ -36,7 +36,7 @@ export const useSavingsVaultUserInfos = (): {
   const { data, isLoading, error } = useQuery({
     queryKey: [`savings-vault-user-infos-${userAddress}`],
     queryFn: () => fetchSavingsVaultUserInfos(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10,
     enabled: !!userAddress && isAddress(userAddress),
   });
 

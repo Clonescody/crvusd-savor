@@ -14,7 +14,7 @@ export const useSavingsVaultInfos = () => {
   const { data, isLoading } = useQuery({
     queryKey: [`savings-vault-infos`],
     queryFn: () => fetchSavingsVaultRedeemValue(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10,
   });
 
   return {

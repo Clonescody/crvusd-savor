@@ -7,6 +7,8 @@ import { VaultsTable } from "@/components/VaultsTable";
 import { format } from "@greypixel_/nicenumbers";
 import { useAllLendingVaults } from "@/hooks/lending/useAllLendingVaults";
 import { EventType } from "@/types/apiInterface";
+import { Spinner } from "@/components/Spinner";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const LendingPage = () => {
   const { userAddress: userAddressParam } = useParams();
@@ -111,7 +113,13 @@ export const LendingPage = () => {
           },
         ]}
       />
-      {vaults && <VaultsTable vaults={vaults} />}
+      {vaults ? (
+        <VaultsTable vaults={vaults} />
+      ) : isLoadingVaults ? (
+        <Spinner />
+      ) : (
+        <ErrorMessage type="empty" />
+      )}
     </div>
   );
 };

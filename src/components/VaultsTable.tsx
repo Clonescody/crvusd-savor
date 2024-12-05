@@ -49,7 +49,9 @@ export const VaultsTable = ({ vaults }: VaultsTableProps) => {
 
               const vaultDeposited = events.reduce(
                 (acc, event) =>
-                  event.type === EventType.Deposit ? acc + event.amount : acc,
+                  event.type === EventType.Deposit
+                    ? acc + event.amount
+                    : acc - event.amount,
                 0
               );
 

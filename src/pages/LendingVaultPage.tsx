@@ -7,7 +7,7 @@ import { useAddressStore } from "@/store/useAddressStore";
 import { format } from "@greypixel_/nicenumbers";
 import { useSingleLendingVault } from "@/hooks/lending/useSingleLendingVault";
 import { EventType } from "@/types/apiInterface";
-import { EmptyEventsMessage } from "@/components/EmptyEventsMessage";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const LendingVaultPage = () => {
   const navigate = useNavigate();
@@ -145,7 +145,7 @@ export const LendingVaultPage = () => {
       {events.length > 0 ? (
         <TransactionsTable events={events} />
       ) : (
-        <EmptyEventsMessage />
+        <ErrorMessage type="empty" />
       )}
     </div>
   );

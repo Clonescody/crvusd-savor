@@ -6,7 +6,8 @@ import { TransactionsTable } from "@/components/TransactionsTable";
 import { useSavingsVaultUserInfos } from "@/hooks/savings/useSavingsVaultUserInfos";
 import { useAddressStore } from "@/store/useAddressStore";
 import { useSavingsVaultInfos } from "@/hooks/savings/useSavingsVaultInfos";
-import { EmptyEventsMessage } from "@/components/EmptyEventsMessage";
+import { Spinner } from "@/components/Spinner";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const SavingsPage = () => {
   const { userAddress: userAddressParam } = useParams();
@@ -129,8 +130,10 @@ export const SavingsPage = () => {
 
       {userInfos && userInfos.events.length > 0 ? (
         <TransactionsTable events={userInfos.events} />
+      ) : isLoading ? (
+        <Spinner />
       ) : (
-        <EmptyEventsMessage />
+        <ErrorMessage type="empty" />
       )}
     </div>
   );
