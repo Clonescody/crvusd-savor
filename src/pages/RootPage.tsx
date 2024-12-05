@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { isAddress } from "viem";
 import { useAddressStore } from "@/store/useAddressStore";
 
@@ -26,7 +26,23 @@ export const RootPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col p-8 gap-20 items-center justify-start min-h-screen bg-gray-100 dark:bg-gray-900">
+      <p className="flex text-xl px-20 text-center">
+        The Saving Llama is a community built website aiming to provide users
+        with a simple interface to track their crvUSD earnings through the Curve
+        Savings and Lending vaults.
+      </p>
+      <p className="flex text-xl mb-4 px-20 text-center">
+        The website is free, open source, and community driven. If you would
+        like to contribute, please visit the{" "}
+        <Link
+          to="https://github.com/curvefi/savings-llama"
+          className="text-blue-600 dark:text-blue-400"
+        >
+          GitHub repository
+        </Link>
+        .
+      </p>
       <form
         onSubmit={handleSubmit}
         className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md"

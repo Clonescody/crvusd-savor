@@ -31,7 +31,7 @@ export const Header = () => {
   return (
     <header className="bg-blue-600 dark:bg-blue-800 text-white p-4 flex justify-between items-center">
       <div className="flex items-center space-x-4">
-        <h1 className="text-2xl font-bold">crvUSD Savor</h1>
+        <h1 className="text-2xl font-bold">The Saving Llama</h1>
         <nav className="flex space-x-4">
           <NavLink
             to={`${userAddress}/savings`}
