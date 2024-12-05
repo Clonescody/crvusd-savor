@@ -52,7 +52,7 @@ export const Header = () => {
         </nav>
       </div>
       <div className="flex items-center space-x-4">
-        {userAddress !== "" && (
+        {userAddress && (
           <div
             className="relative"
             onMouseEnter={() => setIsHovering(true)}
