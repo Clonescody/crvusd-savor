@@ -18,7 +18,7 @@ export const RootPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isAddress(inputAddress)) {
-      setError("Invalid address");
+      setError("The address is not valid");
       return;
     }
     setUserAddress(inputAddress);
@@ -30,8 +30,8 @@ export const RootPage = () => {
       <div className="flex flex-col items-center justify-start md:px-40 mb-8">
         <p className="text-xl text-center mb-4">
           The Saving Llama is a community built website aiming to provide users
-          with a simple interface to track their crvUSD earnings through the
-          Curve Savings and Lending vaults.
+          with a simple interface to track their crvUSD earnings from the Curve
+          Savings and Lending vaults.
         </p>
         <p className="text-xl mb-4 text-center">
           The website is free, open source, and community driven. If you would
@@ -43,6 +43,9 @@ export const RootPage = () => {
             GitHub repository
           </Link>
           .
+        </p>
+        <p className="text-xl mb-4 text-center">
+          No wallet connection required, no tracking, no ads.
         </p>
       </div>
       <form
@@ -59,7 +62,7 @@ export const RootPage = () => {
           placeholder="Enter your address"
           className="w-full p-2 mb-4 border border-gray-300 dark:border-gray-600 rounded dark:bg-gray-700 dark:text-white"
         />
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500 mb-2">{error}</p>}
         <button
           type="submit"
           className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition-colors"
