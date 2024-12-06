@@ -27,6 +27,9 @@ export const Footer = () => {
           Visit Curve
         </Link>
       </div>
+      <p className="text-sm italic">
+        If you wish to support the work, you can donate to clonescody.eth
+      </p>
     </footer>
   );
 };
