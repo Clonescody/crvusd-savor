@@ -31,28 +31,30 @@ export const Header = () => {
   return (
     <header className="bg-blue-600 dark:bg-blue-800 text-white p-4 flex justify-between items-center">
       <div className="flex items-center space-x-4">
-        <h1 className="text-2xl font-bold">crvUSD Savor</h1>
-        <nav className="flex space-x-4">
-          <NavLink
-            to={`${userAddress}/savings`}
-            className={`text-white hover:text-blue-200 ${
-              location.pathname.includes("/savings") ? "underline" : ""
-            }`}
-          >
-            Savings
-          </NavLink>
-          <NavLink
-            to={`${userAddress}/lending`}
-            className={`text-white hover:text-blue-200 ${
-              location.pathname.includes("/lending") ? "underline" : ""
-            }`}
-          >
-            Lending
-          </NavLink>
-        </nav>
+        <h1 className="text-2xl font-bold">The Saving Llama</h1>
+        {userAddress && (
+          <nav className="flex space-x-4">
+            <NavLink
+              to={`${userAddress}/savings`}
+              className={`text-white hover:text-blue-200 ${
+                location.pathname.includes("/savings") ? "underline" : ""
+              }`}
+            >
+              Savings
+            </NavLink>
+            <NavLink
+              to={`${userAddress}/lending`}
+              className={`text-white hover:text-blue-200 ${
+                location.pathname.includes("/lending") ? "underline" : ""
+              }`}
+            >
+              Lending
+            </NavLink>
+          </nav>
+        )}
       </div>
       <div className="flex items-center space-x-4">
-        {userAddress !== "" && (
+        {userAddress && (
           <div
             className="relative"
             onMouseEnter={() => setIsHovering(true)}

@@ -39,7 +39,7 @@ export const useAllLendingVaults = (): {
   const { data, isLoading, error } = useQuery({
     queryKey: [`lending-vaults-${user}`],
     queryFn: () => fetchAllLendingVaults(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10,
     enabled: !!user && isAddress(user),
   });
 

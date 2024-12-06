@@ -6,44 +6,32 @@ import { useAddressStore } from "@/store/useAddressStore";
 import { VaultsTable } from "@/components/VaultsTable";
 import { format } from "@greypixel_/nicenumbers";
 import { useAllLendingVaults } from "@/hooks/lending/useAllLendingVaults";
-import { EventType } from "@/types/apiInterface";
+import { Spinner } from "@/components/Spinner";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import { useAllLendingVaultsValues } from "@/hooks/lending/useAllLendingVaultsValues";
+import { useState } from "react";
 
 export const LendingPage = () => {
   const { userAddress: userAddressParam } = useParams();
   const { userAddress, setUserAddress } = useAddressStore((state) => state);
   const { data: vaults, isLoading: isLoadingVaults } = useAllLendingVaults();
+  const {
+    totalRedeemValue,
+    totalDeposited,
+    currentEarnings,
+    historicalEarnings,
+  } = useAllLendingVaultsValues(vaults);
+  const [hideZeroDeposits, setHideZeroDeposits] = useState(false);
+  const [hideZeroEarnings, setHideZeroEarnings] = useState(false);
 
   if (
-    userAddressParam &&
-    isAddress(userAddressParam) &&
-    userAddress.toLowerCase() !== userAddressParam.toLowerCase()
+    (userAddressParam && isAddress(userAddressParam) && !userAddress) ||
+    (userAddressParam &&
+      userAddress &&
+      userAddress.toLowerCase() !== userAddressParam.toLowerCase())
   ) {
     setUserAddress(userAddressParam);
   }
-
-  let totalRedeemValue = 0;
-  let totalDeposited = 0;
-
-  if (vaults) {
-    totalRedeemValue = vaults.reduce(
-      (acc, vault) => acc + vault.redeemValue,
-      0
-    );
-    totalDeposited = vaults.reduce(
-      (acc, vaultEvents) =>
-        acc +
-        vaultEvents.events.reduce(
-          (acc, event) =>
-            event.type === EventType.Deposit
-              ? acc + event.amount
-              : acc - event.amount,
-          0
-        ),
-      0
-    );
-  }
-
-  const totalRevenues = totalRedeemValue - totalDeposited;
 
   return (
     <div className={`container mx-auto p-4 space-y-4`}>
@@ -81,37 +69,70 @@ export const LendingPage = () => {
               useSymbols: false,
               addCommas: true,
             }),
+            suffix: "crvUSD",
           },
           {
-            title: "Current balance",
+            title: "Redeem value",
             value: format(totalRedeemValue, {
               tokenDecimals: 0,
               useSymbols: false,
               addCommas: true,
             }),
+            suffix: "crvUSD",
           },
           {
             title: "Current earnings",
-            value: format(totalRevenues, {
+            value: format(currentEarnings, {
               tokenDecimals: 0,
               useSymbols: false,
               addCommas: true,
             }),
+            suffix: "crvUSD",
           },
           {
             title: "Historical earnings",
-            value:
-              totalRevenues > 0
-                ? "0"
-                : format(totalRevenues, {
-                    tokenDecimals: 0,
-                    useSymbols: false,
-                    addCommas: true,
-                  }),
+            value: format(historicalEarnings, {
+              tokenDecimals: 0,
+              useSymbols: false,
+              addCommas: true,
+            }),
+            suffix: "crvUSD",
           },
         ]}
       />
-      {vaults && <VaultsTable vaults={vaults} />}
+      <div className="flex md:flex-col md:items-end md:justify-start">
+        <div className="flex flex-row items-center justify-start">
+          <span>Hide zero deposits</span>
+          <input
+            title="Hide zero deposits"
+            type="checkbox"
+            className="ml-2 mr-2 md:mr-0"
+            checked={hideZeroDeposits}
+            onChange={() => setHideZeroDeposits(!hideZeroDeposits)}
+          />
+        </div>
+        <div className="flex flex-row items-center justify-start">
+          <span>Hide zero earnings</span>
+          <input
+            title="Hide zero earnings"
+            type="checkbox"
+            className="ml-2"
+            checked={hideZeroEarnings}
+            onChange={() => setHideZeroEarnings(!hideZeroEarnings)}
+          />
+        </div>
+      </div>
+      {vaults ? (
+        <VaultsTable
+          vaults={vaults}
+          hideZeroDeposits={hideZeroDeposits}
+          hideZeroEarnings={hideZeroEarnings}
+        />
+      ) : isLoadingVaults ? (
+        <Spinner />
+      ) : (
+        <ErrorMessage type="empty" />
+      )}
     </div>
   );
 };

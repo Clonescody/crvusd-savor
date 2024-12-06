@@ -6,7 +6,8 @@ import { TransactionsTable } from "@/components/TransactionsTable";
 import { useSavingsVaultUserInfos } from "@/hooks/savings/useSavingsVaultUserInfos";
 import { useAddressStore } from "@/store/useAddressStore";
 import { useSavingsVaultInfos } from "@/hooks/savings/useSavingsVaultInfos";
-import { EmptyEventsMessage } from "@/components/EmptyEventsMessage";
+import { Spinner } from "@/components/Spinner";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const SavingsPage = () => {
   const { userAddress: userAddressParam } = useParams();
@@ -21,12 +22,24 @@ export const SavingsPage = () => {
   } = useSavingsVaultInfos();
 
   const isLoading = isLoadingUserInfos || isLoadingSavingsInfos;
+
   if (
-    userAddressParam &&
-    isAddress(userAddressParam) &&
-    userAddress.toLowerCase() !== userAddressParam.toLowerCase()
+    (userAddressParam && isAddress(userAddressParam) && !userAddress) ||
+    (userAddressParam &&
+      userAddress &&
+      userAddress.toLowerCase() !== userAddressParam.toLowerCase())
   ) {
     setUserAddress(userAddressParam);
+  }
+
+  let totalRedeemValue = 0;
+  let totalDeposited = 0;
+  let totalEarnings = 0;
+
+  if (userInfos) {
+    totalRedeemValue = userInfos.redeemValue;
+    totalDeposited = userInfos.deposited;
+    totalEarnings = userInfos.earnings;
   }
 
   return (
@@ -35,7 +48,6 @@ export const SavingsPage = () => {
         <h2 className="text-2xl font-bold text-blue-600 dark:text-blue-400">
           Savings Vault
         </h2>
-
         <p className="text-2xl text-blue-600 dark:text-blue-400 ml-2">
           | TVL :{" "}
           {format(tvl, {
@@ -81,56 +93,40 @@ export const SavingsPage = () => {
         stats={[
           {
             title: "Total deposited",
-
-            value: userInfos
-              ? format(userInfos.totalDeposited, {
-                  tokenDecimals: 0,
-                  useSymbols: false,
-                  addCommas: true,
-                })
-              : "0",
+            value: format(totalDeposited, {
+              tokenDecimals: 0,
+              useSymbols: false,
+              addCommas: true,
+            }),
+            suffix: "crvUSD",
           },
           {
-            title: "Current balance",
-
-            value: userInfos
-              ? format(userInfos.currentBalance, {
-                  tokenDecimals: 0,
-                  useSymbols: false,
-                  addCommas: true,
-                })
-              : "0",
+            title: "Redeem value",
+            value: format(totalRedeemValue, {
+              tokenDecimals: 0,
+              useSymbols: false,
+              addCommas: true,
+            }),
+            suffix: "crvUSD",
           },
           {
-            title: "Current earnings",
-
-            value:
-              userInfos && userInfos.currentBalance > 0
-                ? format(userInfos.totalRevenues, {
-                    tokenDecimals: 0,
-                    useSymbols: false,
-                    addCommas: true,
-                  })
-                : "0",
-          },
-          {
-            title: "Historical earnings",
-
-            value: userInfos
-              ? format(userInfos.totalRevenues, {
-                  tokenDecimals: 0,
-                  useSymbols: false,
-                  addCommas: true,
-                })
-              : "0",
+            title:
+              totalRedeemValue > 0 ? "Current earnings" : "Historical earnings",
+            value: format(totalEarnings, {
+              tokenDecimals: 0,
+              useSymbols: false,
+              addCommas: true,
+            }),
+            suffix: "crvUSD",
           },
         ]}
       />
-
       {userInfos && userInfos.events.length > 0 ? (
         <TransactionsTable events={userInfos.events} />
+      ) : isLoading ? (
+        <Spinner />
       ) : (
-        <EmptyEventsMessage />
+        <ErrorMessage type="empty" />
       )}
     </div>
   );

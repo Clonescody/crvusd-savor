@@ -1,6 +1,6 @@
 import { format as formatDate } from "date-fns";
-import { ExternalLink } from "lucide-react";
-import { getExplorerLinkForChain } from "@/helpers/utils";
+import { Download, ExternalLink } from "lucide-react";
+import { getExplorerLinkForChain } from "@/utils/explorer";
 import { format } from "@greypixel_/nicenumbers";
 import { Event, EventType } from "@/types/apiInterface";
 
@@ -9,8 +9,43 @@ type TransactionsTableProps = {
 };
 
 export const TransactionsTable = ({ events }: TransactionsTableProps) => {
+  const downloadCSV = () => {
+    const headers = ["Date", "Chain", "Event", "Amount", "Transaction Hash"];
+    const csvData = events.map((tx) => [
+      formatDate(new Date(tx.timestamp), "dd/MM/yyyy"),
+      tx.chain,
+      tx.type,
+      tx.amount,
+      getExplorerLinkForChain(tx.hash, tx.chain),
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...csvData.map((row) => row.join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "savings_vault_events.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="overflow-x-auto">
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={downloadCSV}
+          className="flex items-center gap-2 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+        >
+          <Download className="w-4 h-4" />
+          Events CSV
+        </button>
+      </div>
       <table className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
         <thead className="bg-gray-100 dark:bg-gray-700">
           <tr>

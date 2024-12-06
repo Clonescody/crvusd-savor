@@ -10,22 +10,22 @@ interface StatsBlockProps {
   isLoading: boolean;
 }
 
-export const StatsBlock = ({ stats, isLoading }: StatsBlockProps) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((stat) => (
-        <StatCard
-          key={stat.title}
-          title={stat.title}
-          value={stat.value}
-          prefix={stat.prefix}
-          suffix={stat.suffix}
-          isLoading={isLoading}
-        />
-      ))}
-    </div>
-  );
-};
+export const StatsBlock = ({ stats, isLoading }: StatsBlockProps) => (
+  <div
+    className={`grid grid-cols-1 ${stats.length === 4 ? "md:grid-cols-2" : "md:grid-cols-3"} lg:grid-cols-${stats.length} gap-4`}
+  >
+    {stats.map((stat) => (
+      <StatCard
+        key={stat.title}
+        title={stat.title}
+        value={stat.value}
+        prefix={stat.prefix}
+        suffix={stat.suffix}
+        isLoading={isLoading}
+      />
+    ))}
+  </div>
+);
 
 interface StatCardProps {
   title: string;
@@ -52,8 +52,7 @@ const StatCard = ({
       } text-blue-600 dark:text-blue-400`}
     >
       {prefix}
-      {value}
-      {suffix}
+      {value} {suffix}
     </p>
   </div>
 );

@@ -2,7 +2,7 @@ import ethereumImage from "@/assets/chains/ethereum.svg";
 import optimismImage from "@/assets/chains/optimism.svg";
 import arbitrumImage from "@/assets/chains/arbitrum.svg";
 import fraxtalImage from "@/assets/chains/fraxtal.png";
-import crvUsdImage from "@/assets/tokens/crvUSD.png";
+import crvUsdImage from "@/assets/tokens/crvusd.png";
 import asdcrvImage from "@/assets/tokens/asdcrv.png";
 import crvImage from "@/assets/tokens/crv.png";
 import dlcbtcImage from "@/assets/tokens/dlcbtc.png";

@@ -33,14 +33,15 @@ type Vault = {
 };
 
 export type VaultWithEvents = Vault & {
+  deposited: number;
   redeemValue: number;
   earnings: number;
   events: Event[];
 };
 
 export type UserSavingsData = {
-  totalDeposited: number;
-  currentBalance: number;
-  totalRevenues: number;
+  deposited: number;
+  redeemValue: number;
+  earnings: number;
   events: Event[];
 };
