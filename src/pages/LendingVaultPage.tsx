@@ -6,7 +6,6 @@ import { TransactionsTable } from "@/components/TransactionsTable";
 import { useAddressStore } from "@/store/useAddressStore";
 import { format } from "@greypixel_/nicenumbers";
 import { useSingleLendingVault } from "@/hooks/lending/useSingleLendingVault";
-import { EventType } from "@/types/apiInterface";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const LendingVaultPage = () => {
@@ -32,21 +31,7 @@ export const LendingVaultPage = () => {
     return;
   }
 
-  const { events, redeemValue } = vault;
-
-  let totalDeposited = 0;
-
-  if (redeemValue > 0 && events.length > 0) {
-    totalDeposited = events.reduce(
-      (acc, event) =>
-        event.type === EventType.Deposit
-          ? acc + event.amount
-          : acc - event.amount,
-      0
-    );
-  }
-
-  const totalRevenues = redeemValue - totalDeposited;
+  const { events, redeemValue, deposited, earnings } = vault;
 
   return (
     <div className="container mx-auto p-4 space-y-4">
@@ -108,38 +93,30 @@ export const LendingVaultPage = () => {
         stats={[
           {
             title: "Total deposited",
-            value: format(totalDeposited, {
+            value: format(deposited, {
               tokenDecimals: 0,
               useSymbols: false,
               addCommas: true,
             }),
+            suffix: "crvUSD",
           },
           {
-            title: "Current balance",
+            title: "Redeem value",
             value: format(redeemValue, {
               tokenDecimals: 0,
               useSymbols: false,
               addCommas: true,
             }),
+            suffix: "crvUSD",
           },
           {
-            title: "Current earnings",
-            value: format(totalRevenues, {
+            title: redeemValue > 0 ? "Current earnings" : "Historical earnings",
+            value: format(earnings, {
               tokenDecimals: 0,
               useSymbols: false,
               addCommas: true,
             }),
-          },
-          {
-            title: "Historical earnings",
-            value:
-              redeemValue > 0
-                ? "0"
-                : format(totalRevenues, {
-                    tokenDecimals: 0,
-                    useSymbols: false,
-                    addCommas: true,
-                  }),
+            suffix: "crvUSD",
           },
         ]}
       />
